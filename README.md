@@ -16,7 +16,7 @@
 
 **English** · [Español](README.es.md)
 
-[Features](#-features) · [Services](#-supported-services) · [Notifications](#-notifications) · [Run](#-getting-started) · [Build](#-build-the-installer) · [Contact](#-creator)
+[Features](#features) · [Services](#supported-services) · [Notifications](#notifications) · [Run](#getting-started) · [Build](#build-the-installer) · [Contact](#creator)
 
 </div>
 
@@ -24,40 +24,40 @@
 
 Social Hub is a desktop app built with Electron that lets you manage multiple WhatsApp, Facebook, Instagram, TikTok and LinkedIn accounts from a single window. Each account has its own isolated session, so you can keep several accounts of the same service open at once without them mixing.
 
-## ✨ Features
+## Features
 
 <table>
   <tr>
-    <td width="50%">👥 <b>Multiple accounts</b><br>As many accounts per service as you need. Names up to 50 characters.</td>
-    <td width="50%">🧱 <b>Isolated sessions</b><br>Each account has its own storage; deleting it wipes its data and cache.</td>
+    <td align="center" width="50%"><img src="docs/icons/users.svg" width="28" alt=""><br><b>Multiple accounts</b><br>As many accounts per service as you need. Names up to 50 characters.</td>
+    <td align="center" width="50%"><img src="docs/icons/lock.svg" width="28" alt=""><br><b>Isolated sessions</b><br>Each account has its own storage; deleting it wipes its data and cache.</td>
   </tr>
   <tr>
-    <td>🔔 <b>Unified notifications</b><br>Unread badges, taskbar counter and alert sound in one place.</td>
-    <td>🖥️ <b>System tray</b><br>Close the window and the app keeps running; click a notification to jump to that account.</td>
+    <td align="center" width="50%"><img src="docs/icons/bell.svg" width="28" alt=""><br><b>Unified notifications</b><br>Unread badges, taskbar counter and alert sound in one place.</td>
+    <td align="center" width="50%"><img src="docs/icons/tray.svg" width="28" alt=""><br><b>System tray</b><br>Close the window and the app keeps running; click a notification to jump to that account.</td>
   </tr>
   <tr>
-    <td>🖱️ <b>Context menu and drag &amp; drop</b><br>Rename, reload, mute, move or delete; reorder accounts by dragging.</td>
-    <td>🌍 <b>Bilingual</b><br>Spanish and English, following your system language by default.</td>
+    <td align="center" width="50%"><img src="docs/icons/grip.svg" width="28" alt=""><br><b>Context menu and drag &amp; drop</b><br>Rename, reload, mute, move or delete; reorder accounts by dragging.</td>
+    <td align="center" width="50%"><img src="docs/icons/languages.svg" width="28" alt=""><br><b>Bilingual</b><br>Spanish and English, following your system language by default.</td>
   </tr>
   <tr>
-    <td>🔒 <b>Privacy-first</b><br>Sandboxed, context-isolated renderer with a strict CSP and permission allowlist.</td>
-    <td>🏠 <b>Home dashboard</b><br>A card per service with account count and unread badges; expand to see accounts.</td>
+    <td align="center" width="50%"><img src="docs/icons/shield.svg" width="28" alt=""><br><b>Privacy-first</b><br>Sandboxed, context-isolated renderer with a strict CSP and permission allowlist.</td>
+    <td align="center" width="50%"><img src="docs/icons/dashboard.svg" width="28" alt=""><br><b>Home dashboard</b><br>A card per service with account count and unread badges; expand to see accounts.</td>
   </tr>
 </table>
 
 Also included: single instance (a second launch focuses the existing window), in-app pop-ups for the same service (for example, a login) while other links open in your browser, and a 1280x800 window (minimum 800x500) with a custom dark title bar. The app always starts on Home.
 
-## 🌐 Supported services
+## Supported services
 
 | Service | URL | Camera / mic |
 | --- | --- | :---: |
-| WhatsApp | https://web.whatsapp.com | ✅ |
-| Facebook | https://www.facebook.com | ✅ |
-| Instagram | https://www.instagram.com | ✅ |
-| TikTok | https://www.tiktok.com | — |
-| LinkedIn | https://www.linkedin.com | — |
+| <img src="docs/icons/whatsapp.svg" width="20" alt=""> WhatsApp | https://web.whatsapp.com | Yes |
+| <img src="docs/icons/facebook.svg" width="20" alt=""> Facebook | https://www.facebook.com | Yes |
+| <img src="docs/icons/instagram.svg" width="20" alt=""> Instagram | https://www.instagram.com | Yes |
+| <img src="docs/icons/tiktok.svg" width="20" alt=""> TikTok | https://www.tiktok.com | — |
+| <img src="docs/icons/linkedin.svg" width="20" alt=""> LinkedIn | https://www.linkedin.com | — |
 
-## 🔔 Notifications
+## Notifications
 
 - Unread badges per account (sidebar) and per service (Home cards).
 - Counter on the taskbar icon (Windows) and window title "Social Hub (N)".
@@ -70,7 +70,7 @@ Also included: single instance (a second launch focuses the existing window), in
 > [!TIP]
 > Closing the window hides Social Hub to the system tray and notifications keep arriving. All accounts are loaded in the background at startup (staggered), so every account can notify you. The tray icon shows a red dot and its tooltip shows the unread count. Use the tray menu (**Open Social Hub** / **Quit**); to fully exit, choose **Quit**.
 
-## ⚙️ Settings
+## Settings
 
 | Option | Description |
 | --- | --- |
@@ -80,7 +80,7 @@ Also included: single instance (a second launch focuses the existing window), in
 
 The **About** page shows the logo, version, creator, a "Meet the creator" button and the license.
 
-## 🔒 Privacy & security
+## Privacy & security
 
 - Each account uses an isolated partition (`persist:acc-<id>`), so cookies, sessions and cache are not shared between accounts.
 - Deleting an account wipes its session data (logins, cookies and cache).
@@ -90,7 +90,7 @@ The **About** page shows the logo, version, creator, a "Meet the creator" button
 - External links open in the system browser.
 - A desktop Chrome user agent is used.
 
-## 🚀 Getting started
+## Getting started
 
 **Requirements:** Node.js 20 or later.
 
@@ -102,7 +102,7 @@ npm install
 npm start
 ```
 
-## 📦 Build the installer
+## Build the installer
 
 ```bash
 # Generate the Windows installer
@@ -116,7 +116,7 @@ npm run dist
 > [!NOTE]
 > The installer is not digitally signed, so SmartScreen may show a warning: click "More info → Run anyway".
 
-## 🎨 Icons & branding
+## Icons & branding
 
 - `src/renderer/assets/logo.svg` is the logo source.
 - `SocialHub.webp` is the full brand illustration.
@@ -127,7 +127,7 @@ npm run dist
 npm run icons
 ```
 
-## 🛠️ Troubleshooting
+## Troubleshooting
 
 <details>
 <summary><code>EBUSY</code> when building</summary>
@@ -167,16 +167,16 @@ Check that it isn't muted in the sidebar, in Settings or on the account itself.
 
 ---
 
-## 👤 Creator
+## Creator
 
 <div align="center">
 
-Made with ❤️ by **Ricardo Alvarez** · RASOFTDEV
+Made by **Ricardo Alvarez** · RASOFTDEV
 
-🌐 [me.ricardoalvarez.co](https://me.ricardoalvarez.co/) · ✉️ [dev@ricardoalvarez.co](mailto:dev@ricardoalvarez.co)
+<img src="docs/icons/globe.svg" width="16" alt=""> Website: [me.ricardoalvarez.co](https://me.ricardoalvarez.co/) · <img src="docs/icons/mail.svg" width="16" alt=""> Contact: [dev@ricardoalvarez.co](mailto:dev@ricardoalvarez.co)
 
 </div>
 
-## 📄 License
+## License
 
 MIT © 2026 RASOFTDEV · [LICENSE](LICENSE)

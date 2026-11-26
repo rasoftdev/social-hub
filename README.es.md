@@ -16,7 +16,7 @@
 
 [English](README.md) · **Español**
 
-[Características](#-características) · [Servicios](#-servicios-compatibles) · [Notificaciones](#-notificaciones) · [Ejecutar](#-primeros-pasos) · [Instalador](#-generar-el-instalador) · [Contacto](#-creador)
+[Características](#características) · [Servicios](#servicios-compatibles) · [Notificaciones](#notificaciones) · [Ejecutar](#primeros-pasos) · [Instalador](#generar-el-instalador) · [Contacto](#creador)
 
 </div>
 
@@ -24,40 +24,40 @@
 
 Social Hub es una aplicación de escritorio hecha con Electron que te permite gestionar varias cuentas de WhatsApp, Facebook, Instagram, TikTok y LinkedIn desde una sola ventana. Cada cuenta tiene su propia sesión aislada, así que puedes mantener varias cuentas del mismo servicio abiertas a la vez sin que se mezclen.
 
-## ✨ Características
+## Características
 
 <table>
   <tr>
-    <td width="50%">👥 <b>Varias cuentas</b><br>Tantas cuentas por servicio como necesites. Nombres de hasta 50 caracteres.</td>
-    <td width="50%">🧱 <b>Sesiones aisladas</b><br>Cada cuenta tiene su propio almacenamiento; al eliminarla se borran sus datos y su caché.</td>
+    <td align="center" width="50%"><img src="docs/icons/users.svg" width="28" alt=""><br><b>Varias cuentas</b><br>Tantas cuentas por servicio como necesites. Nombres de hasta 50 caracteres.</td>
+    <td align="center" width="50%"><img src="docs/icons/lock.svg" width="28" alt=""><br><b>Sesiones aisladas</b><br>Cada cuenta tiene su propio almacenamiento; al eliminarla se borran sus datos y su caché.</td>
   </tr>
   <tr>
-    <td>🔔 <b>Notificaciones unificadas</b><br>Insignias de no leídos, contador en la barra de tareas y sonido de aviso en un solo lugar.</td>
-    <td>🖥️ <b>Bandeja del sistema</b><br>Cierra la ventana y la aplicación sigue activa; haz clic en una notificación para ir a esa cuenta.</td>
+    <td align="center" width="50%"><img src="docs/icons/bell.svg" width="28" alt=""><br><b>Notificaciones unificadas</b><br>Insignias de no leídos, contador en la barra de tareas y sonido de aviso en un solo lugar.</td>
+    <td align="center" width="50%"><img src="docs/icons/tray.svg" width="28" alt=""><br><b>Bandeja del sistema</b><br>Cierra la ventana y la aplicación sigue activa; haz clic en una notificación para ir a esa cuenta.</td>
   </tr>
   <tr>
-    <td>🖱️ <b>Menú contextual y arrastrar y soltar</b><br>Renombra, recarga, silencia, mueve o elimina; reordena cuentas arrastrando.</td>
-    <td>🌍 <b>Bilingüe</b><br>Español e inglés, según el idioma del sistema por defecto.</td>
+    <td align="center" width="50%"><img src="docs/icons/grip.svg" width="28" alt=""><br><b>Menú contextual y arrastrar y soltar</b><br>Renombra, recarga, silencia, mueve o elimina; reordena cuentas arrastrando.</td>
+    <td align="center" width="50%"><img src="docs/icons/languages.svg" width="28" alt=""><br><b>Bilingüe</b><br>Español e inglés, según el idioma del sistema por defecto.</td>
   </tr>
   <tr>
-    <td>🔒 <b>Privacidad ante todo</b><br>Renderizador aislado y con sandbox, CSP estricta y lista de permisos permitidos.</td>
-    <td>🏠 <b>Panel de Inicio</b><br>Una tarjeta por servicio con número de cuentas e insignias de no leídos; expándela para ver las cuentas.</td>
+    <td align="center" width="50%"><img src="docs/icons/shield.svg" width="28" alt=""><br><b>Privacidad ante todo</b><br>Renderizador aislado y con sandbox, CSP estricta y lista de permisos permitidos.</td>
+    <td align="center" width="50%"><img src="docs/icons/dashboard.svg" width="28" alt=""><br><b>Panel de Inicio</b><br>Una tarjeta por servicio con número de cuentas e insignias de no leídos; expándela para ver las cuentas.</td>
   </tr>
 </table>
 
 También incluye: instancia única (abrir la aplicación por segunda vez enfoca la ventana existente), ventanas emergentes del mismo servicio dentro de la aplicación (por ejemplo, un inicio de sesión) mientras el resto de enlaces se abren en tu navegador, y una ventana de 1280x800 (mínimo 800x500) con barra de título oscura personalizada. La aplicación siempre arranca en Inicio.
 
-## 🌐 Servicios compatibles
+## Servicios compatibles
 
 | Servicio | URL | Cámara / micrófono |
 | --- | --- | :---: |
-| WhatsApp | https://web.whatsapp.com | ✅ |
-| Facebook | https://www.facebook.com | ✅ |
-| Instagram | https://www.instagram.com | ✅ |
-| TikTok | https://www.tiktok.com | — |
-| LinkedIn | https://www.linkedin.com | — |
+| <img src="docs/icons/whatsapp.svg" width="20" alt=""> WhatsApp | https://web.whatsapp.com | Sí |
+| <img src="docs/icons/facebook.svg" width="20" alt=""> Facebook | https://www.facebook.com | Sí |
+| <img src="docs/icons/instagram.svg" width="20" alt=""> Instagram | https://www.instagram.com | Sí |
+| <img src="docs/icons/tiktok.svg" width="20" alt=""> TikTok | https://www.tiktok.com | — |
+| <img src="docs/icons/linkedin.svg" width="20" alt=""> LinkedIn | https://www.linkedin.com | — |
 
-## 🔔 Notificaciones
+## Notificaciones
 
 - Insignias de no leídos por cuenta (barra lateral) y por servicio (tarjetas de Inicio).
 - Contador en el icono de la barra de tareas (Windows) y título de la ventana "Social Hub (N)".
@@ -70,7 +70,7 @@ También incluye: instancia única (abrir la aplicación por segunda vez enfoca 
 > [!TIP]
 > Al cerrar la ventana, Social Hub se oculta en la bandeja del sistema y las notificaciones siguen llegando. Todas las cuentas se cargan en segundo plano al iniciar (de forma escalonada), así que cualquier cuenta puede avisarte. El icono de la bandeja muestra un punto rojo y su descripción emergente indica el número de no leídos. Usa el menú de la bandeja (**Abrir Social Hub** / **Salir**); para cerrar por completo, elige **Salir**.
 
-## ⚙️ Ajustes
+## Ajustes
 
 | Opción | Descripción |
 | --- | --- |
@@ -80,7 +80,7 @@ También incluye: instancia única (abrir la aplicación por segunda vez enfoca 
 
 La página **Acerca de** muestra el logo, la versión, el creador, un botón "Conoce al creador" y la licencia.
 
-## 🔒 Privacidad y seguridad
+## Privacidad y seguridad
 
 - Cada cuenta usa una partición aislada (`persist:acc-<id>`), de modo que cookies, sesiones y caché no se comparten entre cuentas.
 - Al eliminar una cuenta se borran los datos de su sesión (inicios de sesión, cookies y caché).
@@ -90,7 +90,7 @@ La página **Acerca de** muestra el logo, la versión, el creador, un botón "Co
 - Los enlaces externos se abren en el navegador del sistema.
 - Se usa un user agent de Chrome de escritorio.
 
-## 🚀 Primeros pasos
+## Primeros pasos
 
 **Requisitos:** Node.js 20 o superior.
 
@@ -102,7 +102,7 @@ npm install
 npm start
 ```
 
-## 📦 Generar el instalador
+## Generar el instalador
 
 ```bash
 # Generar el instalador de Windows
@@ -116,7 +116,7 @@ npm run dist
 > [!NOTE]
 > El instalador no está firmado digitalmente, por lo que SmartScreen puede mostrar un aviso: pulsa "Más información → Ejecutar de todas formas".
 
-## 🎨 Iconos y marca
+## Iconos y marca
 
 - `src/renderer/assets/logo.svg` es la fuente del logo.
 - `SocialHub.webp` es la ilustración completa de la marca.
@@ -127,7 +127,7 @@ npm run dist
 npm run icons
 ```
 
-## 🛠️ Solución de problemas
+## Solución de problemas
 
 <details>
 <summary><code>EBUSY</code> al compilar</summary>
@@ -167,16 +167,16 @@ Revisa que no esté silenciado en la barra lateral, en Ajustes o en la propia cu
 
 ---
 
-## 👤 Creador
+## Creador
 
 <div align="center">
 
-Hecho con ❤️ por **Ricardo Alvarez** · RASOFTDEV
+Hecho por **Ricardo Alvarez** · RASOFTDEV
 
-🌐 [me.ricardoalvarez.co](https://me.ricardoalvarez.co/) · ✉️ [dev@ricardoalvarez.co](mailto:dev@ricardoalvarez.co)
+<img src="docs/icons/globe.svg" width="16" alt=""> Sitio web: [me.ricardoalvarez.co](https://me.ricardoalvarez.co/) · <img src="docs/icons/mail.svg" width="16" alt=""> Contacto: [dev@ricardoalvarez.co](mailto:dev@ricardoalvarez.co)
 
 </div>
 
-## 📄 Licencia
+## Licencia
 
 MIT © 2026 RASOFTDEV · [LICENSE](LICENSE)
