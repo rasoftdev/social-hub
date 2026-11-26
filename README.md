@@ -22,7 +22,7 @@
 
 ---
 
-Social Hub is a desktop app built with Electron that lets you manage multiple WhatsApp, Facebook, Instagram, Messenger, TikTok and LinkedIn accounts from a single window. Each account has its own isolated session, so you can keep several accounts of the same service open at once without them mixing.
+Social Hub is a desktop app built with Electron that lets you manage multiple WhatsApp, Facebook, Instagram, TikTok and LinkedIn accounts from a single window. Each account has its own isolated session, so you can keep several accounts of the same service open at once without them mixing.
 
 ## Features
 
@@ -53,7 +53,6 @@ Also included: single instance (a second launch focuses the existing window), in
 | --- | --- | :---: |
 | <img src="docs/icons/whatsapp.svg" width="20" alt=""> WhatsApp | https://web.whatsapp.com | Yes |
 | <img src="docs/icons/facebook.svg" width="20" alt=""> Facebook | https://www.facebook.com | Yes |
-| Messenger | https://www.facebook.com/messages/ | — |
 | <img src="docs/icons/instagram.svg" width="20" alt=""> Instagram | https://www.instagram.com | Yes |
 | <img src="docs/icons/tiktok.svg" width="20" alt=""> TikTok | https://www.tiktok.com | — |
 | <img src="docs/icons/linkedin.svg" width="20" alt=""> LinkedIn | https://www.linkedin.com | — |

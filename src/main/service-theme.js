@@ -18,7 +18,6 @@ const styles = {
     .dark { --app-background: ${canvas} !important; --panel-background: ${panel} !important; }
   `,
   facebook,
-  messenger: facebook,
   instagram: `._aa4d, .__fb-dark-mode { --ig-primary-background: 5, 10, 22 !important; }`,
   tiktok: `[data-theme="dark"] { --ui-page-flat-1: ${canvas} !important; --color-BGPrimary: ${canvas} !important; }`,
   linkedin: `.theme--dark { --color-background-canvas: ${canvas} !important; }`
