@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; media-src 'self'; base-uri 'none'; form-action 'none'">
+  <title>Social Hub</title>
+  <link rel="stylesheet" href="assets/lucide.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="titlebar"></div>
+
+  <aside id="sidebar">
+    <div class="brand">
+      <img class="brand-logo" src="assets/logo.svg" alt="" width="34" height="34">
+      <span class="wordmark">Social <b>Hub</b></span>
+      <button type="button" id="mute-all" class="mute-all" aria-label="Silenciar notificaciones" title="Silenciar notificaciones" data-i18n-attr="title:mute.mute;aria-label:mute.mute"></button>
+    </div>
+
+    <nav class="nav">
+      <button type="button" id="nav-home" class="nav-item" data-page="home">
+        <i class="icon-house" aria-hidden="true"></i>
+        <span data-i18n="nav.home">Inicio</span>
+      </button>
+      <button type="button" id="nav-settings" class="nav-item" data-page="settings">
+        <i class="icon-settings" aria-hidden="true"></i>
+        <span data-i18n="nav.settings">Ajustes</span>
+      </button>
+      <button type="button" id="nav-about" class="nav-item" data-page="about">
+        <i class="icon-info" aria-hidden="true"></i>
+        <span data-i18n="nav.about">Acerca de</span>
+      </button>
+    </nav>
+
+    <div class="section-title" data-i18n="accounts.title">Cuentas</div>
+    <ul id="accounts"></ul>
+    <button id="add-btn" class="add" title="Agregar cuenta" data-i18n-attr="title:accounts.add"><i class="icon-plus" aria-hidden="true"></i> <span data-i18n="accounts.add">Agregar cuenta</span></button>
+  </aside>
+
+  <main id="content">
+    <svg class="wave" viewBox="0 0 1200 200" preserveAspectRatio="none" aria-hidden="true">
+      <defs>
+        <linearGradient id="wave-grad" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#1E6FF2" stop-opacity="0.18"/>
+          <stop offset="1" stop-color="#FF7A1A" stop-opacity="0.16"/>
+        </linearGradient>
+      </defs>
+      <path d="M0 120 C200 40 380 190 620 110 C860 30 1000 150 1200 70 V200 H0 Z" fill="url(#wave-grad)"/>
+      <path d="M0 150 C220 80 420 200 640 140 C880 80 1020 180 1200 120 V200 H0 Z" fill="url(#wave-grad)" fill-opacity="0.6"/>
+    </svg>
+
+    <section id="page-home" class="page">
+      <header class="hero">
+        <h1 class="hero-title"><span data-i18n="hero.titleStart">Todas tus redes en</span> <span class="hero-accent" data-i18n="hero.titleAccent">un solo lugar</span></h1>
+        <p class="hero-sub" data-i18n="hero.sub">Gestiona múltiples cuentas de WhatsApp, Facebook, Instagram, TikTok, LinkedIn y más, desde una sola aplicación.</p>
+      </header>
+      <div id="service-grid" class="grid"></div>
+      <div id="service-detail" class="detail hidden"></div>
+    </section>
+
+    <section id="page-settings" class="page hidden">
+      <h1 data-i18n="settings.title">Ajustes</h1>
+      <p class="page-sub" data-i18n="settings.sub">Notificaciones y datos de la aplicación.</p>
+
+      <div class="panel-block">
+        <div class="row">
+          <div class="row-text"><div class="row-title" data-i18n="settings.langTitle">Idioma</div><div class="row-sub" data-i18n="settings.langSub">Idioma de la interfaz.</div></div>
+          <div class="segmented" id="lang-seg" role="radiogroup" aria-label="Idioma" data-i18n-attr="aria-label:settings.langTitle">
+            <button type="button" class="seg-btn" role="radio" data-lang="es">Español</button>
+            <button type="button" class="seg-btn" role="radio" data-lang="en">English</button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="row-text"><div class="row-title" data-i18n="settings.soundTitle">Sonido de notificaciones</div><div class="row-sub" data-i18n="settings.soundSub">Desactívalo para silenciar todas las cuentas.</div></div>
+          <label class="switch"><input type="checkbox" id="mute-all-switch"><span class="slider"></span></label>
+        </div>
+      </div>
+
+      <h2 class="block-title" data-i18n="settings.perAccount">Sonido por cuenta</h2>
+      <div id="settings-accounts" class="panel-block"></div>
+    </section>
+
+    <section id="page-about" class="page hidden">
+      <h1 data-i18n="about.title">Acerca de</h1>
+      <p class="page-sub" data-i18n="about.sub">Información de la aplicación.</p>
+
+      <div class="panel-block about">
+        <img src="assets/logo.svg" alt="" width="56" height="56">
+        <div class="wordmark">Social <b>Hub</b></div>
+        <div class="row-sub"><span data-i18n="about.version">Versión</span> <span id="app-version">-</span></div>
+        <p class="about-tag" data-i18n="about.tag">Todas tus redes sociales en un solo lugar.</p>
+        <div class="about-by"><span data-i18n="about.createdBy">Creado por</span><b>RASOFTDEV</b></div>
+        <button type="button" class="about-link" id="about-profile"><span data-i18n="about.meet">Conoce al creador</span><i class="icon-external-link" aria-hidden="true"></i></button>
+        <div class="about-fine"><span data-i18n="about.license">Licencia MIT ·</span> © <span id="about-year"></span> RASOFTDEV</div>
+      </div>
+    </section>
+  </main>
+
+  <div id="modal" class="modal hidden">
+    <form id="modal-form" class="card dialog" autocomplete="off">
+      <h2 id="modal-title" data-i18n="accounts.add">Agregar cuenta</h2>
+      <div id="service-field">
+        <label data-i18n="modal.service">Servicio</label>
+        <div id="service-picker" class="picker"></div>
+      </div>
+      <label for="label-input" data-i18n="modal.name">Nombre</label>
+      <input id="label-input" type="text" maxlength="50" placeholder="Opcional (ej. Trabajo)" data-i18n-attr="placeholder:modal.namePlaceholder">
+      <p id="modal-error" class="error"></p>
+      <div class="actions">
+        <button type="button" id="cancel-btn" class="secondary" data-i18n="common.cancel">Cancelar</button>
+        <button type="submit" id="ok-btn" data-i18n="common.save">Guardar</button>
+      </div>
+    </form>
+  </div>
+
+  <div id="confirm" class="modal hidden">
+    <div class="card dialog" role="alertdialog" aria-labelledby="confirm-title">
+      <h2 id="confirm-title" data-i18n="accounts.delete">Eliminar cuenta</h2>
+      <p id="confirm-msg" class="confirm-msg"></p>
+      <div class="actions">
+        <button type="button" id="confirm-cancel" class="secondary" data-i18n="common.cancel">Cancelar</button>
+        <button type="button" id="confirm-ok" class="danger" data-i18n="common.delete">Eliminar</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="icons.js"></script>
+  <script src="i18n.js"></script>
+  <script src="renderer.js"></script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+/* Lucide icon font (ISC license), trimmed to the icons used by the app. Source: lucide-static. */
+@font-face {
+  font-family: "lucide";
+  src: url('fonts/lucide.woff2') format('woff2'),
+       url('fonts/lucide.woff') format('woff');
+  font-display: block;
+}
+[class^="icon-"], [class*=" icon-"] {
+  font-family: 'lucide' !important;
+  font-size: inherit;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  display: inline-block;
+  -webkit-font-smoothing: antialiased;
+}
+.icon-volume-2::before { content: "\e1ab"; }
+.icon-volume-x::before { content: "\e1ac"; }
+.icon-house::before { content: "\e0f5"; }
+.icon-settings::before { content: "\e154"; }
+.icon-ellipsis::before { content: "\e0b6"; }
+.icon-plus::before { content: "\e13d"; }
+.icon-grip-vertical::before { content: "\e0eb"; }
+.icon-x::before { content: "\e1b2"; }
+.icon-rotate-cw::before { content: "\e149"; }
+.icon-pencil::before { content: "\e1f9"; }
+.icon-trash-2::before { content: "\e18e"; }
+.icon-external-link::before { content: "\e0b9"; }
+.icon-info::before { content: "\e0f9"; }
+.icon-arrow-up::before { content: "\e04a"; }
+.icon-arrow-down::before { content: "\e042"; }

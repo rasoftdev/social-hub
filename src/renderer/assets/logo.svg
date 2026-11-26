@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="17 9 548 548" width="128" height="128" role="img" aria-label="Social Hub">
+  <defs>
+    <linearGradient id="sh-back" x1="0.1" y1="0.9" x2="0.7" y2="0">
+      <stop offset="0" stop-color="#DCE3F0"/>
+      <stop offset="0.45" stop-color="#EEF1F8"/>
+      <stop offset="1" stop-color="#FFFFFF"/>
+    </linearGradient>
+    <linearGradient id="sh-orange" x1="0.1" y1="1" x2="0.9" y2="0">
+      <stop offset="0" stop-color="#FF5A00"/>
+      <stop offset="1" stop-color="#FF9A1A"/>
+    </linearGradient>
+    <linearGradient id="sh-front" x1="0" y1="1" x2="0.9" y2="0.1">
+      <stop offset="0" stop-color="#1E6FF2"/>
+      <stop offset="0.5" stop-color="#0D3E9A"/>
+      <stop offset="1" stop-color="#0A2A6B"/>
+    </linearGradient>
+    <linearGradient id="sh-rim" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#6FD6FF"/>
+      <stop offset="0.5" stop-color="#22B8FF"/>
+      <stop offset="1" stop-color="#22B8FF"/>
+    </linearGradient>
+  </defs>
+  <rect x="28" y="28" width="447" height="430" rx="125" fill="url(#sh-back)"/>
+  <rect x="150" y="135" width="405" height="370" rx="105" fill="url(#sh-orange)"/>
+  <path d="M180 118H433A55 55 0 0 1 488 173V383A55 55 0 0 1 433 438H258Q235 440 215 458L150 525Q135 540 127 522L125 173A55 55 0 0 1 180 118Z" fill="url(#sh-front)" stroke="url(#sh-rim)" stroke-width="10" stroke-linejoin="round"/>
+  <g fill="#F5F7FF">
+    <rect x="203" y="186" width="96" height="96" rx="28"/>
+    <rect x="316" y="186" width="96" height="96" rx="28"/>
+    <rect x="203" y="294" width="96" height="96" rx="28"/>
+    <rect x="316" y="294" width="96" height="96" rx="28"/>
+  </g>
+</svg>
