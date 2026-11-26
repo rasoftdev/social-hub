@@ -2,7 +2,7 @@
 const path = require('path');
 const { pathToFileURL } = require('url');
 const { app, BrowserWindow, WebContentsView, ipcMain, session, shell, nativeTheme, nativeImage, Tray, Menu } = require('electron');
-const { SERVICES, isValidService, isSameService } = require('./services');
+const { SERVICES, isValidService, isInViewAllowed, unwrapShim } = require('./services');
 const { AccountStore, cleanLabel } = require('./accounts');
 const { mt } = require('./i18n');
 const { applyServiceTheme } = require('./service-theme');
@@ -52,6 +52,12 @@ const isHttpUrl = (u) => {
 
 function openExternalSafe(url) {
   if (isHttpUrl(url)) shell.openExternal(url);
+}
+
+// Opens a blocked URL externally; link shim targets are unwrapped when valid.
+function openExternalTarget(url) {
+  const target = unwrapShim(url);
+  openExternalSafe(target && isHttpUrl(target) ? target : url);
 }
 
 // Displayed count: title count when available, otherwise notifications since last view.
@@ -340,12 +346,27 @@ function createView(account) {
   applyServiceTheme(view, account.service, SERVICES[account.service].url);
 
   wc.setWindowOpenHandler(({ url }) => {
-    if (isSameService(account.service, url)) {
+    if (isInViewAllowed(account.service, url)) {
       wc.loadURL(url).catch(() => {});
     } else {
-      openExternalSafe(url);
+      openExternalTarget(url);
     }
     return { action: 'deny' };
+  });
+
+  // Main-frame navigations away from the service go to the system browser.
+  const guardNavigation = (event, url) => {
+    if (isInViewAllowed(account.service, url)) return;
+    event.preventDefault();
+    openExternalTarget(url);
+  };
+  wc.on('will-navigate', (event, url) => {
+    if (event.isMainFrame === false) return;
+    guardNavigation(event, url);
+  });
+  wc.on('will-redirect', (event, url) => {
+    if (!event.isMainFrame) return;
+    guardNavigation(event, url);
   });
 
   wcToAcc.set(wc.id, account.id);

@@ -32,4 +32,49 @@ function isSameService(service, url) {
   }
 }
 
-module.exports = { SERVICES, isValidService, isSameService };
+// Sign-in hosts (https only) that must stay in the account partition.
+const AUTH_DOMAINS = ['accounts.google.com', 'appleid.apple.com', 'login.microsoftonline.com', 'login.live.com'];
+
+// Link shims match a service domain but lead to external sites.
+const SHIM_HOSTS = ['l.facebook.com', 'lm.facebook.com', 'l.instagram.com'];
+const SHIM_PATH_PREFIX_LINKEDIN = '/redir/';
+
+const hostMatches = (host, d) => host === d || host.endsWith('.' + d);
+
+function isLinkShim(url) {
+  try {
+    const u = new URL(url);
+    if (SHIM_HOSTS.includes(u.hostname)) return true;
+    return hostMatches(u.hostname, 'linkedin.com') && u.pathname.startsWith(SHIM_PATH_PREFIX_LINKEDIN);
+  } catch {
+    return false;
+  }
+}
+
+// Returns the external target wrapped by a link shim, or null.
+function unwrapShim(url) {
+  try {
+    const u = new URL(url);
+    if (!isLinkShim(url)) return null;
+    return u.searchParams.get(SHIM_HOSTS.includes(u.hostname) ? 'u' : 'url');
+  } catch {
+    return null;
+  }
+}
+
+function isAuthUrl(url) {
+  try {
+    const u = new URL(url);
+    return u.protocol === 'https:' && AUTH_DOMAINS.some((d) => hostMatches(u.hostname, d));
+  } catch {
+    return false;
+  }
+}
+
+// True when the URL should load inside the account view.
+function isInViewAllowed(service, url) {
+  if (isAuthUrl(url)) return true;
+  return isSameService(service, url) && !isLinkShim(url);
+}
+
+module.exports = { SERVICES, isValidService, isSameService, isInViewAllowed, unwrapShim };
