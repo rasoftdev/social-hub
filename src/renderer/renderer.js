@@ -24,7 +24,7 @@ function applySidebarState(notifyMain = true) {
   const label = t(sidebarCollapsed ? 'sidebar.expand' : 'sidebar.collapse');
   toggle.title = label;
   toggle.setAttribute('aria-label', label);
-  toggle.querySelector('span').textContent = sidebarCollapsed ? '›' : '‹';
+
   if (notifyMain) window.hub.setSidebarCollapsed(sidebarCollapsed).catch(() => {});
 }
 
@@ -180,11 +180,15 @@ function renderSidebar() {
 // ---------- account context menu ----------
 let ctxMenuEl = null;
 let ctxAccId = null;
+let ctxPopup = null;
 
 function closeCtxMenu(restoreFocus) {
   if (!ctxMenuEl) return;
   const id = ctxAccId;
   ctxMenuEl.remove();
+  const popup = ctxPopup;
+  ctxPopup = null;
+  if (popup && !popup.closed) popup.close();
   ctxMenuEl = null;
   ctxAccId = null;
   if (restoreFocus) {
@@ -257,6 +261,7 @@ function openCtxMenu(id, pos) {
     const label = document.createElement('span');
     label.textContent = it.label;
     b.append(iconGlyph(it.icon), label);
+    if (!it.disabled) b.addEventListener('pointermove', () => b.focus({ preventScroll: true }));
     b.addEventListener('click', (e) => {
       e.stopPropagation();
       if (!it.disabled) it.run();
@@ -270,7 +275,9 @@ function openCtxMenu(id, pos) {
   const W = menu.offsetWidth;
   const H = menu.offsetHeight;
   const minX = 8;
-  const maxX = Math.max(minX, 240 - W);
+  const popupNeeded = sidebarCollapsed && !state.pageOpen && state.activeId;
+  const rightEdge = sidebarCollapsed ? window.innerWidth : $('sidebar').offsetWidth;
+  const maxX = Math.max(minX, rightEdge - 8 - W);
   let left;
   let top;
   if (pos.button) {
@@ -284,6 +291,30 @@ function openCtxMenu(id, pos) {
   }
   left = Math.min(Math.max(left, minX), maxX);
   top = Math.min(Math.max(top, 8), Math.max(8, window.innerHeight - H - 8));
+  if (popupNeeded) {
+    // Native service views sit above the shell DOM. Host the same menu in a child window.
+    const x = Math.round(window.screenX + left);
+    const y = Math.round(window.screenY + top);
+    const popup = window.open('about:blank', 'account-menu', `left=${x},top=${y},width=${W},height=${H}`);
+    if (!popup) { closeCtxMenu(false); return; }
+    ctxPopup = popup;
+    const doc = popup.document;
+    doc.documentElement.lang = document.documentElement.lang;
+    for (const sheet of document.querySelectorAll('link[rel="stylesheet"]')) {
+      const link = doc.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = sheet.href;
+      doc.head.append(link);
+    }
+    doc.body.className = 'account-menu-popup';
+    doc.body.append(menu);
+    doc.addEventListener('keydown', handleCtxKey);
+    popup.addEventListener('pagehide', () => {
+      if (ctxPopup === popup) { ctxPopup = null; closeCtxMenu(false); }
+    }, { once: true });
+    left = 0;
+    top = 0;
+  }
   menu.style.left = left + 'px';
   menu.style.top = top + 'px';
 
@@ -298,8 +329,9 @@ document.addEventListener('mousedown', (e) => {
   if (row && row.dataset.id === ctxAccId) return; // let the click toggle it closed
   closeCtxMenu(false);
 });
-document.addEventListener('keydown', (e) => {
+function handleCtxKey(e) {
   if (!ctxMenuEl) return;
+  const focused = ctxMenuEl.ownerDocument.activeElement;
   if (e.key === 'Escape') {
     e.preventDefault();
     closeCtxMenu(true);
@@ -307,15 +339,16 @@ document.addEventListener('keydown', (e) => {
     e.preventDefault();
     const list = Array.from(ctxMenuEl.querySelectorAll('.ctx-item:not([aria-disabled="true"])'));
     if (!list.length) return;
-    const cur = list.indexOf(document.activeElement);
+    const cur = list.indexOf(focused);
     const step = e.key === 'ArrowDown' ? 1 : -1;
     list[(cur + step + list.length) % list.length].focus();
-  } else if (e.key === 'Enter' && ctxMenuEl.contains(document.activeElement)) {
+  } else if (e.key === 'Enter' && ctxMenuEl.contains(focused)) {
     e.preventDefault();
-    document.activeElement.click();
+    focused.click();
   }
-});
-window.addEventListener('blur', () => closeCtxMenu(false));
+}
+document.addEventListener('keydown', handleCtxKey);
+window.addEventListener('blur', () => { if (!ctxPopup) closeCtxMenu(false); });
 window.addEventListener('resize', () => closeCtxMenu(false));
 listEl.addEventListener('scroll', () => closeCtxMenu(false));
 $('sidebar').addEventListener('scroll', () => closeCtxMenu(false));

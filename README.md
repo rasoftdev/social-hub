@@ -22,7 +22,7 @@
 
 ---
 
-Social Hub is a desktop app built with Electron that lets you manage multiple WhatsApp, Facebook, Instagram, TikTok and LinkedIn accounts from a single window. Each account has its own isolated session, so you can keep several accounts of the same service open at once without them mixing.
+Social Hub is a desktop app built with Electron that lets you manage multiple WhatsApp, Facebook, Instagram, Messenger, TikTok and LinkedIn accounts from a single window. Each account has its own isolated session, so you can keep several accounts of the same service open at once without them mixing.
 
 ## Features
 
@@ -53,6 +53,7 @@ Also included: single instance (a second launch focuses the existing window), in
 | --- | --- | :---: |
 | <img src="docs/icons/whatsapp.svg" width="20" alt=""> WhatsApp | https://web.whatsapp.com | Yes |
 | <img src="docs/icons/facebook.svg" width="20" alt=""> Facebook | https://www.facebook.com | Yes |
+| Messenger | https://www.facebook.com/messages/ | — |
 | <img src="docs/icons/instagram.svg" width="20" alt=""> Instagram | https://www.instagram.com | Yes |
 | <img src="docs/icons/tiktok.svg" width="20" alt=""> TikTok | https://www.tiktok.com | — |
 | <img src="docs/icons/linkedin.svg" width="20" alt=""> LinkedIn | https://www.linkedin.com | — |
@@ -171,20 +172,17 @@ Check that it isn't muted in the sidebar, in Settings or on the account itself.
 
 <div align="center">
 
-<table>
-<tr>
-<td align="center" width="180">
-<img src="src/assets/icon.png" width="96" alt="Social Hub logo"><br>
+<img src="src/assets/icon.png" width="88" alt="Social Hub logo"><br>
 <strong>Ricardo Alvarez</strong><br>
 <sub>Creator · RASOFTDEV</sub>
-</td>
-<td align="left">
-<strong>Social Hub</strong> is crafted and maintained by Ricardo Alvarez.<br><br>
-<a href="https://me.ricardoalvarez.co/"><img src="docs/icons/globe.svg" width="16" alt=""> Website</a> ·
+
+<p><strong>Social Hub</strong> is crafted and maintained by Ricardo Alvarez.</p>
+
+<p>
+<a href="https://me.ricardoalvarez.co/"><img src="docs/icons/globe.svg" width="16" alt=""> Website</a>
+&nbsp;&nbsp;·&nbsp;&nbsp;
 <a href="mailto:dev@ricardoalvarez.co"><img src="docs/icons/mail.svg" width="16" alt=""> Contact</a>
-</td>
-</tr>
-</table>
+</p>
 
 </div>
 

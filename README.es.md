@@ -22,7 +22,7 @@
 
 ---
 
-Social Hub es una aplicación de escritorio hecha con Electron que te permite gestionar varias cuentas de WhatsApp, Facebook, Instagram, TikTok y LinkedIn desde una sola ventana. Cada cuenta tiene su propia sesión aislada, así que puedes mantener varias cuentas del mismo servicio abiertas a la vez sin que se mezclen.
+Social Hub es una aplicación de escritorio hecha con Electron que te permite gestionar varias cuentas de WhatsApp, Facebook, Instagram, Messenger, TikTok y LinkedIn desde una sola ventana. Cada cuenta tiene su propia sesión aislada, así que puedes mantener varias cuentas del mismo servicio abiertas a la vez sin que se mezclen.
 
 ## Características
 
@@ -53,6 +53,7 @@ También incluye: instancia única (abrir la aplicación por segunda vez enfoca 
 | --- | --- | :---: |
 | <img src="docs/icons/whatsapp.svg" width="20" alt=""> WhatsApp | https://web.whatsapp.com | Sí |
 | <img src="docs/icons/facebook.svg" width="20" alt=""> Facebook | https://www.facebook.com | Sí |
+| Messenger | https://www.facebook.com/messages/ | — |
 | <img src="docs/icons/instagram.svg" width="20" alt=""> Instagram | https://www.instagram.com | Sí |
 | <img src="docs/icons/tiktok.svg" width="20" alt=""> TikTok | https://www.tiktok.com | — |
 | <img src="docs/icons/linkedin.svg" width="20" alt=""> LinkedIn | https://www.linkedin.com | — |
@@ -171,20 +172,17 @@ Revisa que no esté silenciado en la barra lateral, en Ajustes o en la propia cu
 
 <div align="center">
 
-<table>
-<tr>
-<td align="center" width="180">
-<img src="src/assets/icon.png" width="96" alt="Logo de Social Hub"><br>
+<img src="src/assets/icon.png" width="88" alt="Logo de Social Hub"><br>
 <strong>Ricardo Alvarez</strong><br>
 <sub>Creador · RASOFTDEV</sub>
-</td>
-<td align="left">
-<strong>Social Hub</strong> es creado y mantenido por Ricardo Alvarez.<br><br>
-<a href="https://me.ricardoalvarez.co/"><img src="docs/icons/globe.svg" width="16" alt=""> Sitio web</a> ·
+
+<p><strong>Social Hub</strong> es creado y mantenido por Ricardo Alvarez.</p>
+
+<p>
+<a href="https://me.ricardoalvarez.co/"><img src="docs/icons/globe.svg" width="16" alt=""> Sitio web</a>
+&nbsp;&nbsp;·&nbsp;&nbsp;
 <a href="mailto:dev@ricardoalvarez.co"><img src="docs/icons/mail.svg" width="16" alt=""> Contacto</a>
-</td>
-</tr>
-</table>
+</p>
 
 </div>
 

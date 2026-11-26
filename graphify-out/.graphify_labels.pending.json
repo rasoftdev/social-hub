@@ -1,0 +1,23 @@
+{
+  "0": "main.js",
+  "1": "renderer.js",
+  "2": "package.json",
+  "3": "AccountStore",
+  "4": "accounts.js",
+  "5": "README.md",
+  "6": "build",
+  "7": "renderer/i18n.js",
+  "8": "icons.js",
+  "9": "AGENTS.md",
+  "10": "CLAUDE.md",
+  "11": "architecture.md",
+  "12": "decisions.md",
+  "13": "glossary.md",
+  "14": "arquitectura.md",
+  "15": "decisiones.md",
+  "16": "glosario.md",
+  "17": "updateTray",
+  "18": "createView",
+  "19": "registerIpc",
+  "20": "setTitleCount"
+}

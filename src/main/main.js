@@ -1,12 +1,13 @@
 'use strict';
 const path = require('path');
 const { pathToFileURL } = require('url');
-const { app, BrowserWindow, WebContentsView, ipcMain, session, shell, nativeImage, Tray, Menu } = require('electron');
+const { app, BrowserWindow, WebContentsView, ipcMain, session, shell, nativeTheme, nativeImage, Tray, Menu } = require('electron');
 const { SERVICES, isValidService, isSameService } = require('./services');
 const { AccountStore, cleanLabel } = require('./accounts');
 const { mt } = require('./i18n');
+const { applyServiceTheme } = require('./service-theme');
 
-const SIDEBAR_WIDTH = 248; // keep in sync with #sidebar width in styles.css
+const SIDEBAR_WIDTH = 220; // keep in sync with #sidebar width in styles.css
 const SIDEBAR_COLLAPSED_WIDTH = 72; // keep in sync with collapsed sidebar styles
 const TITLEBAR_HEIGHT = 36; // keep in sync with #titlebar height in styles.css
 const CHROME_MAJOR = process.versions.chrome.split('.')[0];
@@ -336,6 +337,7 @@ function createView(account) {
   });
   const wc = view.webContents;
   wc.setUserAgent(USER_AGENT);
+  applyServiceTheme(view, account.service, SERVICES[account.service].url);
 
   wc.setWindowOpenHandler(({ url }) => {
     if (isSameService(account.service, url)) {
@@ -580,9 +582,26 @@ function createWindow() {
   win.webContents.on('will-navigate', (e, url) => {
     if (url !== indexUrl) e.preventDefault();
   });
-  win.webContents.setWindowOpenHandler(({ url }) => {
+  win.webContents.setWindowOpenHandler(({ url, frameName }) => {
+    if (frameName === 'account-menu' && url === 'about:blank') {
+      return {
+        action: 'allow',
+        overrideBrowserWindowOptions: {
+          parent: win, frame: false, transparent: true, resizable: false,
+          skipTaskbar: true, minimizable: false, maximizable: false,
+          webPreferences: { sandbox: true, nodeIntegration: false, contextIsolation: true }
+        }
+      };
+    }
     openExternalSafe(url);
     return { action: 'deny' };
+  });
+
+  win.webContents.on('did-create-window', (popup, details) => {
+    if (details.frameName !== 'account-menu') return;
+    popup.webContents.setWindowOpenHandler(() => ({ action: 'deny' }));
+    popup.webContents.on('will-navigate', event => event.preventDefault());
+    popup.once('blur', () => popup.close());
   });
 
   win.on('page-title-updated', (e) => e.preventDefault()); // keep "Social Hub (N)" title
@@ -634,6 +653,7 @@ function createWindow() {
 app.whenReady().then(() => {
   if (!gotLock) return;
   systemLang = (app.getPreferredSystemLanguages()[0] || app.getLocale() || '').toLowerCase().startsWith('es') ? 'es' : 'en';
+  nativeTheme.themeSource = 'dark';
   store = new AccountStore();
   registerIpc();
   createWindow();

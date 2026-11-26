@@ -1,7 +1,7 @@
 {
   "name": "social-hub",
   "version": "1.0.0",
-  "description": "Social Hub - multi-account wrapper for WhatsApp, Facebook, Instagram, TikTok and LinkedIn",
+  "description": "Social Hub - multi-account wrapper for WhatsApp, Facebook, Messenger, Instagram, TikTok and LinkedIn",
   "main": "src/main/main.js",
   "author": {
     "name": "Ricardo Alvarez",
