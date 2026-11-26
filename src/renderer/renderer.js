@@ -13,6 +13,20 @@ let expandedService = null; // service id whose accounts are listed on Inicio
 let popoverService = null; // service id whose "⋯" popover is open
 let modalMode = null; // { type: 'add' } | { type: 'rename', id }
 let selectedService = null;
+let sidebarCollapsed = localStorage.getItem('sidebar-collapsed') === 'true';
+
+function applySidebarState(notifyMain = true) {
+  const sidebar = $('sidebar');
+  const toggle = $('sidebar-toggle');
+  document.body.classList.toggle('sidebar-collapsed', sidebarCollapsed);
+  sidebar.classList.toggle('collapsed', sidebarCollapsed);
+  toggle.setAttribute('aria-expanded', String(!sidebarCollapsed));
+  const label = t(sidebarCollapsed ? 'sidebar.expand' : 'sidebar.collapse');
+  toggle.title = label;
+  toggle.setAttribute('aria-label', label);
+  toggle.querySelector('span').textContent = sidebarCollapsed ? '›' : '‹';
+  if (notifyMain) window.hub.setSidebarCollapsed(sidebarCollapsed).catch(() => {});
+}
 
 function iconEl(service, size) {
   const d = document.createElement('div');
@@ -514,7 +528,11 @@ function render() {
 function setState(s) {
   if (s) {
     state = s;
-    if (state.lang && state.lang !== LANG) { setLang(state.lang); applyStaticI18n(); }
+    if (state.lang && state.lang !== LANG) {
+      setLang(state.lang);
+      applyStaticI18n();
+      applySidebarState(false);
+    }
   }
   render();
 }
@@ -647,6 +665,12 @@ async function requestDelete(id) {
 
 $('about-year').textContent = String(new Date().getFullYear());
 $('about-profile').addEventListener('click', () => { window.hub.openProfile(); });
+$('sidebar-toggle').addEventListener('click', () => {
+  sidebarCollapsed = !sidebarCollapsed;
+  localStorage.setItem('sidebar-collapsed', String(sidebarCollapsed));
+  applySidebarState();
+});
+applySidebarState();
 
 (async () => {
   services = await window.hub.getServices();

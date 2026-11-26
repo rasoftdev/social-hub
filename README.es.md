@@ -171,9 +171,20 @@ Revisa que no esté silenciado en la barra lateral, en Ajustes o en la propia cu
 
 <div align="center">
 
-Hecho por **Ricardo Alvarez** · RASOFTDEV
-
-<img src="docs/icons/globe.svg" width="16" alt=""> Sitio web: [me.ricardoalvarez.co](https://me.ricardoalvarez.co/) · <img src="docs/icons/mail.svg" width="16" alt=""> Contacto: [dev@ricardoalvarez.co](mailto:dev@ricardoalvarez.co)
+<table>
+<tr>
+<td align="center" width="180">
+<img src="src/assets/icon.png" width="96" alt="Logo de Social Hub"><br>
+<strong>Ricardo Alvarez</strong><br>
+<sub>Creador · RASOFTDEV</sub>
+</td>
+<td align="left">
+<strong>Social Hub</strong> es creado y mantenido por Ricardo Alvarez.<br><br>
+<a href="https://me.ricardoalvarez.co/"><img src="docs/icons/globe.svg" width="16" alt=""> Sitio web</a> ·
+<a href="mailto:dev@ricardoalvarez.co"><img src="docs/icons/mail.svg" width="16" alt=""> Contacto</a>
+</td>
+</tr>
+</table>
 
 </div>
 

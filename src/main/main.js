@@ -7,6 +7,7 @@ const { AccountStore, cleanLabel } = require('./accounts');
 const { mt } = require('./i18n');
 
 const SIDEBAR_WIDTH = 248; // keep in sync with #sidebar width in styles.css
+const SIDEBAR_COLLAPSED_WIDTH = 72; // keep in sync with collapsed sidebar styles
 const TITLEBAR_HEIGHT = 36; // keep in sync with #titlebar height in styles.css
 const CHROME_MAJOR = process.versions.chrome.split('.')[0];
 // Plain desktop Chrome UA: no "Electron/x" and no app name.
@@ -16,6 +17,7 @@ let win = null;
 let store = null;
 let overlayOpen = false;
 let pageOpen = true; // Inicio / Ajustes page shown: all account views hidden
+let sidebarCollapsed = false;
 const views = new Map(); // accountId -> WebContentsView
 const titleCounts = {}; // accountId -> count parsed from page title
 const notifCounts = {}; // accountId -> notifications since last viewed
@@ -310,11 +312,12 @@ function configureSession(account) {
 function layoutViews() {
   if (!win || win.isDestroyed()) return;
   const [w, h] = win.getContentSize();
+  const sidebarWidth = sidebarCollapsed ? SIDEBAR_COLLAPSED_WIDTH : SIDEBAR_WIDTH;
   for (const view of views.values()) {
     view.setBounds({
-      x: SIDEBAR_WIDTH,
+      x: sidebarWidth,
       y: TITLEBAR_HEIGHT,
-      width: Math.max(0, w - SIDEBAR_WIDTH),
+      width: Math.max(0, w - sidebarWidth),
       height: Math.max(0, h - TITLEBAR_HEIGHT)
     });
   }
@@ -539,6 +542,13 @@ function registerIpc() {
   ipcMain.handle('ui:overlay', (_e, p) => {
     overlayOpen = !!(p && p.open === true);
     showActive();
+    return true;
+  });
+
+  ipcMain.handle('ui:sidebar', (_e, p) => {
+    if (!p || typeof p !== 'object' || typeof p.collapsed !== 'boolean') throw new Error('Datos no válidos');
+    sidebarCollapsed = p.collapsed;
+    layoutViews();
     return true;
   });
 }

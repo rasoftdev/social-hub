@@ -18,6 +18,7 @@ contextBridge.exposeInMainWorld('hub', {
   setLang: (lang) => ipcRenderer.invoke('settings:lang', { lang: String(lang) }),
   setMuteAll: (muted) => ipcRenderer.invoke('settings:mute', { muted: muted === true }),
   setOverlay: (open) => ipcRenderer.invoke('ui:overlay', { open: open === true }),
+  setSidebarCollapsed: (collapsed) => ipcRenderer.invoke('ui:sidebar', { collapsed: collapsed === true }),
   onState: (cb) => { ipcRenderer.on('state', (_e, s) => cb(s)); },
   onPlaySound: (cb) => { ipcRenderer.on('play-sound', () => cb()); }
 });

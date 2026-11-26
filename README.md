@@ -171,9 +171,20 @@ Check that it isn't muted in the sidebar, in Settings or on the account itself.
 
 <div align="center">
 
-Made by **Ricardo Alvarez** · RASOFTDEV
-
-<img src="docs/icons/globe.svg" width="16" alt=""> Website: [me.ricardoalvarez.co](https://me.ricardoalvarez.co/) · <img src="docs/icons/mail.svg" width="16" alt=""> Contact: [dev@ricardoalvarez.co](mailto:dev@ricardoalvarez.co)
+<table>
+<tr>
+<td align="center" width="180">
+<img src="src/assets/icon.png" width="96" alt="Social Hub logo"><br>
+<strong>Ricardo Alvarez</strong><br>
+<sub>Creator · RASOFTDEV</sub>
+</td>
+<td align="left">
+<strong>Social Hub</strong> is crafted and maintained by Ricardo Alvarez.<br><br>
+<a href="https://me.ricardoalvarez.co/"><img src="docs/icons/globe.svg" width="16" alt=""> Website</a> ·
+<a href="mailto:dev@ricardoalvarez.co"><img src="docs/icons/mail.svg" width="16" alt=""> Contact</a>
+</td>
+</tr>
+</table>
 
 </div>
 
