@@ -357,22 +357,14 @@ function createView(account) {
   // Main-frame navigations away from the service go to the system browser.
   const guardNavigation = (event, url) => {
     if (isInViewAllowed(account.service, url)) return;
-    console.log('[diag] BLOCK', url);
     event.preventDefault();
     openExternalTarget(url);
   };
-  wc.on('did-start-navigation', (e, url, ...r) => console.log('[diag] did-start-navigation', url, e.isMainFrame));
-  wc.on('did-fail-load', (e, code, desc, url, main) => console.log('[diag] did-fail-load', code, desc, url, main));
-  wc.on('did-finish-load', () => console.log('[diag] did-finish-load', wc.getURL()));
-  wc.on('render-process-gone', (e, d) => console.log('[diag] render-process-gone', JSON.stringify(d)));
-  wc.on('console-message', (e, ...a) => console.log('[diag] console', JSON.stringify(a).slice(0, 300)));
   wc.on('will-navigate', (event, url) => {
-    console.log('[diag] will-navigate', url, event.isMainFrame);
     if (event.isMainFrame === false) return;
     guardNavigation(event, url);
   });
   wc.on('will-redirect', (event, url) => {
-    console.log('[diag] will-redirect', url, event.isMainFrame);
     if (!event.isMainFrame) return;
     guardNavigation(event, url);
   });
@@ -687,7 +679,6 @@ app.whenReady().then(() => {
   registerIpc();
   createWindow();
   createTray();
-  setTimeout(() => { const a = store.accounts[0]; console.log('[diag] select', a.service); selectAccount(a.id); setTimeout(() => { const v = views.get(a.id); console.log('[diag] view', JSON.stringify(v.getBounds()), v.getVisible && v.getVisible(), pageOpen, overlayOpen, store.activeId, win.getContentBounds().width, win.getContentBounds().height); win.webContents.capturePage().then((i) => require('fs').writeFileSync(process.env.DIAG_SHOT, i.toPNG())); }, 6000); }, 8000);
   app.on('second-instance', showWindow);
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
