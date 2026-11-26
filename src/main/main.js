@@ -1,7 +1,7 @@
 'use strict';
 const path = require('path');
 const { pathToFileURL } = require('url');
-const { app, BrowserWindow, WebContentsView, ipcMain, session, shell, nativeImage } = require('electron');
+const { app, BrowserWindow, WebContentsView, ipcMain, session, shell, nativeImage, Tray, Menu } = require('electron');
 const { SERVICES, isValidService, isSameService } = require('./services');
 const { AccountStore, cleanLabel } = require('./accounts');
 const { mt } = require('./i18n');
@@ -23,9 +23,18 @@ const lastSound = {}; // accountId -> timestamp of last sound
 const wcToAcc = new Map(); // webContents.id -> accountId
 const SOUND_DEBOUNCE_MS = 1500;
 
-if (!app.requestSingleInstanceLock()) {
+const gotLock = app.requestSingleInstanceLock();
+if (!gotLock) {
   app.quit();
 }
+
+let quitting = false;
+let tray = null;
+let trayHintShown = false;
+let trayHasUnread = null;
+let trayLang = null;
+const trayImages = {};
+app.on('before-quit', () => { quitting = true; });
 
 // ---------- helpers ----------
 const partitionOf = (id) => `persist:acc-${id}`;
@@ -85,7 +94,7 @@ function playSound(id) {
 }
 
 function flashIfUnfocused() {
-  if (win && !win.isDestroyed() && !win.isFocused()) win.flashFrame(true);
+  if (win && !win.isDestroyed() && win.isVisible() && !win.isFocused()) win.flashFrame(true);
 }
 
 function setTitleCount(id, n) {
@@ -173,6 +182,105 @@ function updateTaskbarBadge() {
   } catch (e) {
     console.error('badge error:', e);
   }
+  updateTray();
+}
+
+// ---------- tray ----------
+// Draws a red dot (dark ring) in the top-right corner of a BGRA bitmap.
+function paintDot(buf, size) {
+  const r = size * 0.22;
+  const ring = Math.max(1, Math.round(size / 16));
+  const ri = r - ring;
+  const cx = size - r - 0.5;
+  const cy = r + 0.5;
+  const clamp = (v) => Math.max(0, Math.min(1, v));
+  const over = (i, rr, g, b, a) => {
+    if (a <= 0) return;
+    const da = buf[i + 3] / 255;
+    const oa = a + da * (1 - a);
+    buf[i] = Math.round((b * a + buf[i] * da * (1 - a)) / oa);
+    buf[i + 1] = Math.round((g * a + buf[i + 1] * da * (1 - a)) / oa);
+    buf[i + 2] = Math.round((rr * a + buf[i + 2] * da * (1 - a)) / oa);
+    buf[i + 3] = Math.round(oa * 255);
+  };
+  for (let y = 0; y < size; y++) {
+    for (let x = 0; x < size; x++) {
+      const d = Math.hypot(x + 0.5 - cx, y + 0.5 - cy);
+      const i = (y * size + x) * 4;
+      over(i, 0x05, 0x0A, 0x16, clamp(r + 0.5 - d));
+      over(i, 0xEF, 0x44, 0x44, clamp(ri + 0.5 - d));
+    }
+  }
+}
+
+function buildTrayImage(unread) {
+  const base = nativeImage.createFromPath(path.join(__dirname, '..', 'assets', 'icon.png'));
+  const make = (size) => {
+    const img = base.resize({ width: size, height: size, quality: 'best' });
+    if (!unread) return img;
+    const buf = Buffer.from(img.toBitmap());
+    paintDot(buf, size);
+    return nativeImage.createFromBitmap(buf, { width: size, height: size });
+  };
+  const img = make(16);
+  img.addRepresentation({ scaleFactor: 2, width: 32, height: 32, buffer: make(32).toPNG() });
+  return img;
+}
+
+function trayImage(unread) {
+  const key = unread ? 'unread' : 'base';
+  if (!trayImages[key]) trayImages[key] = buildTrayImage(unread);
+  return trayImages[key];
+}
+
+function showWindow() {
+  if (!win || win.isDestroyed()) {
+    createWindow();
+    return;
+  }
+  if (win.isMinimized()) win.restore();
+  win.show();
+  win.focus();
+}
+
+function createTray() {
+  tray = new Tray(trayImage(false));
+  trayHasUnread = false;
+  tray.on('click', showWindow);
+  tray.on('double-click', showWindow);
+  updateTray();
+}
+
+function updateTray() {
+  if (!tray || tray.isDestroyed()) return;
+  try {
+    const lang = effectiveLang();
+    const total = totalCount();
+    const unread = total > 0;
+    if (unread !== trayHasUnread) {
+      tray.setImage(trayImage(unread));
+      trayHasUnread = unread;
+    }
+    tray.setToolTip(unread ? 'Social Hub — ' + mt(lang, 'unread', { n: total }) : 'Social Hub');
+    if (lang !== trayLang) {
+      trayLang = lang;
+      tray.setContextMenu(Menu.buildFromTemplate([
+        { label: mt(lang, 'tray.open'), click: showWindow },
+        { type: 'separator' },
+        { label: mt(lang, 'tray.quit'), click: () => { quitting = true; app.quit(); } }
+      ]));
+    }
+  } catch (e) {
+    console.error('tray error:', e);
+  }
+}
+
+function maybeShowTrayHint() {
+  if (trayHintShown || !tray || tray.isDestroyed()) return;
+  trayHintShown = true;
+  try {
+    tray.displayBalloon({ iconType: 'info', title: 'Social Hub', content: mt(effectiveLang(), 'tray.hint') });
+  } catch { /* Windows only */ }
 }
 
 // ---------- sessions ----------
@@ -405,6 +513,13 @@ function registerIpc() {
     if (id && store.has(id)) onPageNotification(id);
   });
 
+  ipcMain.on('svc:notification-click', (event) => {
+    const id = wcToAcc.get(event.sender.id);
+    if (!id || !store.has(id)) return;
+    showWindow();
+    selectAccount(id);
+  });
+
   // The UI hides all account views while the Inicio / Ajustes pages are shown.
   ipcMain.handle('ui:page', (_e, p) => {
     if (!p || typeof p !== 'object' || typeof p.open !== 'boolean') throw new Error('Datos no válidos');
@@ -444,7 +559,8 @@ function createWindow() {
       preload: path.join(__dirname, '..', 'preload', 'ui-preload.js'),
       contextIsolation: true,
       nodeIntegration: false,
-      sandbox: true
+      sandbox: true,
+      backgroundThrottling: false // keep the UI renderer alive while hidden so the chime plays
     }
   });
   win.setMenuBarVisibility(false);
@@ -469,6 +585,13 @@ function createWindow() {
   win.on('unmaximize', layoutViews);
   win.on('enter-full-screen', layoutViews);
   win.on('leave-full-screen', layoutViews);
+  win.on('close', (e) => {
+    if (!quitting) {
+      e.preventDefault();
+      win.hide();
+      maybeShowTrayHint();
+    }
+  });
   win.on('closed', () => {
     win = null;
     views.clear();
@@ -477,26 +600,35 @@ function createWindow() {
   win.loadFile(indexFile);
   win.webContents.once('did-finish-load', () => {
     pageOpen = true; // always start on Inicio
-    const id = store.activeId;
-    const account = id ? store.get(id) : null;
-    // preload active account hidden so its badges keep updating
-    if (account && !views.has(id)) createView(account);
+    // preload all accounts hidden so their badges keep updating: active first, rest staggered
+    const queue = [];
+    if (store.activeId) queue.push(store.activeId);
+    for (const a of store.accounts) if (!queue.includes(a.id)) queue.push(a.id);
+    const next = () => {
+      if (!win || win.isDestroyed()) return;
+      const id = queue.shift();
+      if (id === undefined) return;
+      const account = store.get(id);
+      if (account && !views.has(id)) {
+        createView(account);
+        showActive();
+      }
+      if (queue.length) setTimeout(next, 1200);
+    };
+    next();
     showActive();
     pushState();
   });
 }
 
 app.whenReady().then(() => {
+  if (!gotLock) return;
   systemLang = (app.getPreferredSystemLanguages()[0] || app.getLocale() || '').toLowerCase().startsWith('es') ? 'es' : 'en';
   store = new AccountStore();
   registerIpc();
   createWindow();
-  app.on('second-instance', () => {
-    if (win) {
-      if (win.isMinimized()) win.restore();
-      win.focus();
-    }
-  });
+  createTray();
+  app.on('second-instance', showWindow);
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });

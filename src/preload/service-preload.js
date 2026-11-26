@@ -6,16 +6,21 @@
 const { contextBridge, ipcRenderer } = require('electron');
 
 const notify = () => { ipcRenderer.send('svc:notification'); };
+const notifyClick = () => { ipcRenderer.send('svc:notification-click'); };
 
 try {
   contextBridge.executeInMainWorld({
-    func: (notifyFn) => {
+    func: (notifyFn, clickFn) => {
       const safe = () => { try { notifyFn(); } catch { /* ignore */ } };
       if (typeof window.Notification === 'function') {
         window.Notification = new Proxy(window.Notification, {
           construct(target, args, newTarget) {
             safe();
-            return Reflect.construct(target, args, newTarget);
+            const n = Reflect.construct(target, args, newTarget);
+            try {
+              n.addEventListener('click', () => { try { clickFn(); } catch { /* ignore */ } });
+            } catch { /* ignore */ }
+            return n;
           }
         });
       }
@@ -29,7 +34,7 @@ try {
         });
       }
     },
-    args: [notify]
+    args: [notify, notifyClick]
   });
 } catch (e) {
   // Never break the page if wrapping fails.

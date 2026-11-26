@@ -1,8 +1,18 @@
 'use strict';
 
 const STRINGS = {
-  es: { unread: '{n} sin leer' },
-  en: { unread: '{n} unread' }
+  es: {
+    unread: '{n} sin leer',
+    'tray.open': 'Abrir Social Hub',
+    'tray.quit': 'Salir',
+    'tray.hint': 'Social Hub sigue abierto en la bandeja y te avisará de nuevas notificaciones.'
+  },
+  en: {
+    unread: '{n} unread',
+    'tray.open': 'Open Social Hub',
+    'tray.quit': 'Quit',
+    'tray.hint': 'Social Hub is still running in the tray and will keep notifying you.'
+  }
 };
 
 function mt(lang, key, vars) {

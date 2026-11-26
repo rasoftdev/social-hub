@@ -1,128 +1,182 @@
 <div align="center">
 
-<img src="src/renderer/assets/logo.svg" alt="Social Hub" width="120">
+<img src="SocialHub.webp" alt="Social Hub" width="520">
 
-# Social Hub
+<br>
 
-**Todas tus redes sociales en un solo lugar.**
+*All your social networks in one place.*
 
-Windows · Español / English · Licencia MIT
+<br>
+
+![Platform: Windows](https://img.shields.io/badge/platform-Windows-1E6FF2?style=flat-square&logo=windows&logoColor=white)
+![Electron 45](https://img.shields.io/badge/Electron-45-1E6FF2?style=flat-square&logo=electron&logoColor=white)
+![Version 1.0.0](https://img.shields.io/badge/version-1.0.0-FF7A1A?style=flat-square)
+![Languages: ES | EN](https://img.shields.io/badge/lang-ES%20%7C%20EN-FF7A1A?style=flat-square)
+![License: MIT](https://img.shields.io/badge/license-MIT-050A16?style=flat-square)
+
+**English** · [Español](README.es.md)
+
+[Features](#-features) · [Services](#-supported-services) · [Notifications](#-notifications) · [Run](#-getting-started) · [Build](#-build-the-installer) · [Contact](#-creator)
 
 </div>
 
 ---
 
-Social Hub es una aplicación de escritorio hecha con Electron que te permite gestionar varias cuentas de WhatsApp, Facebook, Instagram, TikTok y LinkedIn desde una sola ventana. Cada cuenta tiene su propia sesión aislada, así que puedes mantener varias cuentas del mismo servicio abiertas a la vez sin que se mezclen.
+Social Hub is a desktop app built with Electron that lets you manage multiple WhatsApp, Facebook, Instagram, TikTok and LinkedIn accounts from a single window. Each account has its own isolated session, so you can keep several accounts of the same service open at once without them mixing.
 
-## Índice
+## ✨ Features
 
-- [Qué incluye](#qué-incluye)
-- [Servicios compatibles](#servicios-compatibles)
-- [Notificaciones](#notificaciones)
-- [Ajustes](#ajustes)
-- [Privacidad y seguridad](#privacidad-y-seguridad)
-- [Ejecutar desde el código](#ejecutar-desde-el-código)
-- [Generar el instalador](#generar-el-instalador)
-- [Iconos y marca](#iconos-y-marca)
-- [Solución de problemas](#solución-de-problemas)
-- [Creador y contacto](#creador-y-contacto)
-- [Licencia](#licencia)
+<table>
+  <tr>
+    <td width="50%">👥 <b>Multiple accounts</b><br>As many accounts per service as you need. Names up to 50 characters.</td>
+    <td width="50%">🧱 <b>Isolated sessions</b><br>Each account has its own storage; deleting it wipes its data and cache.</td>
+  </tr>
+  <tr>
+    <td>🔔 <b>Unified notifications</b><br>Unread badges, taskbar counter and alert sound in one place.</td>
+    <td>🖥️ <b>System tray</b><br>Close the window and the app keeps running; click a notification to jump to that account.</td>
+  </tr>
+  <tr>
+    <td>🖱️ <b>Context menu and drag &amp; drop</b><br>Rename, reload, mute, move or delete; reorder accounts by dragging.</td>
+    <td>🌍 <b>Bilingual</b><br>Spanish and English, following your system language by default.</td>
+  </tr>
+  <tr>
+    <td>🔒 <b>Privacy-first</b><br>Sandboxed, context-isolated renderer with a strict CSP and permission allowlist.</td>
+    <td>🏠 <b>Home dashboard</b><br>A card per service with account count and unread badges; expand to see accounts.</td>
+  </tr>
+</table>
 
-## Qué incluye
+Also included: single instance (a second launch focuses the existing window), in-app pop-ups for the same service (for example, a login) while other links open in your browser, and a 1280x800 window (minimum 800x500) with a custom dark title bar. The app always starts on Home.
 
-- Varias cuentas por servicio. Los nombres por defecto son "\<Servicio\>", "\<Servicio\> 2"… y pueden tener hasta 50 caracteres.
-- Sesión aislada por cada cuenta; al eliminar una cuenta se borran su almacenamiento y su caché.
-- Menú contextual propio (clic derecho o botón "…"): Renombrar, Recargar, Silenciar/Activar sonido, Mover arriba/abajo y Eliminar (con confirmación).
-- Reordenación de cuentas arrastrando y soltando en la barra lateral.
-- Pantalla de **Inicio** con tarjetas de cada servicio, número de cuentas e insignias de no leídos; se pueden expandir para ver sus cuentas. La aplicación siempre arranca en Inicio.
-- Página de **Ajustes** con idioma, sonido general y sonido por cuenta.
-- Página **Acerca de** con logo, versión, creador, botón "Conoce al creador" y licencia.
-- Instancia única: si abres la aplicación por segunda vez, se enfoca la ventana existente.
-- Las ventanas emergentes del mismo servicio (por ejemplo, un inicio de sesión) se abren dentro de la aplicación; el resto de enlaces se abren en el navegador del sistema.
-- Ventana de 1280x800 (mínimo 800x500) con barra de título oscura personalizada.
+## 🌐 Supported services
 
-## Servicios compatibles
+| Service | URL | Camera / mic |
+| --- | --- | :---: |
+| WhatsApp | https://web.whatsapp.com | ✅ |
+| Facebook | https://www.facebook.com | ✅ |
+| Instagram | https://www.instagram.com | ✅ |
+| TikTok | https://www.tiktok.com | — |
+| LinkedIn | https://www.linkedin.com | — |
 
-| Servicio | URL | Cámara y micrófono |
-| --- | --- | --- |
-| WhatsApp | https://web.whatsapp.com | Sí |
-| Facebook | https://www.facebook.com | Sí |
-| Instagram | https://www.instagram.com | Sí |
-| TikTok | https://www.tiktok.com | No |
-| LinkedIn | https://www.linkedin.com | No |
+## 🔔 Notifications
 
-## Notificaciones
+- Unread badges per account (sidebar) and per service (Home cards).
+- Counter on the taskbar icon (Windows) and window title "Social Hub (N)".
+- Alert sound, with a 1.5 s gap between alerts per account; mute everything or just one account.
+- Window flashing when it is not focused.
+- Counters are detected from the page title (for example, "(3)") or from the service's web notifications.
+- Unread counts are cleared when you open the account or focus the window.
+- Click an OS notification to open that account, when the service supports it.
 
-- Insignias de no leídos por cuenta (barra lateral) y por servicio (tarjetas de Inicio).
-- Contador en el icono de la barra de tareas (Windows) y título de la ventana "Social Hub (N)".
-- Sonido de aviso, con un margen de 1,5 s entre avisos por cuenta.
-- Parpadeo de la ventana cuando no está enfocada.
-- Los contadores se detectan a partir del título de la página (por ejemplo, "(3)") o de las notificaciones web del servicio.
-- Los no leídos se limpian al abrir la cuenta o al enfocar la ventana.
-- Puedes silenciar todo el sonido o solo una cuenta concreta.
+> [!TIP]
+> Closing the window hides Social Hub to the system tray and notifications keep arriving. All accounts are loaded in the background at startup (staggered), so every account can notify you. The tray icon shows a red dot and its tooltip shows the unread count. Use the tray menu (**Open Social Hub** / **Quit**); to fully exit, choose **Quit**.
 
-> Las notificaciones solo llegan mientras la aplicación está abierta: al cerrar la ventana, la aplicación se cierra. Además, las cuentas que aún no se han abierto en la sesión no se cargan; al iniciar solo se precarga la última cuenta activa.
+## ⚙️ Settings
 
-## Ajustes
-
-| Opción | Descripción |
+| Option | Description |
 | --- | --- |
-| Idioma | Español / English. Por defecto usa el idioma del sistema; la elección se guarda. |
-| Sonido de notificaciones | Interruptor general para silenciar o activar todos los avisos sonoros. |
-| Sonido por cuenta | Interruptor individual para cada cuenta. |
+| Language | Español / English. Uses the system language by default; your choice is saved. |
+| Notification sound | General switch to mute or unmute all alert sounds. |
+| Sound per account | Individual switch for each account. |
 
-Además, la página **Acerca de** muestra la versión, el creador y la licencia.
+The **About** page shows the logo, version, creator, a "Meet the creator" button and the license.
 
-## Privacidad y seguridad
+## 🔒 Privacy & security
 
-- Cada cuenta usa una partición aislada (`persist:acc-<id>`), de modo que cookies, sesiones y caché no se comparten entre cuentas.
-- Al eliminar una cuenta se borran los datos de su sesión (inicios de sesión, cookies y caché).
-- Los datos de la aplicación se guardan localmente en `accounts.json`, dentro de la carpeta de datos de usuario de la app (en Windows, normalmente en `%APPDATA%`).
-- `contextIsolation` activado, `sandbox` activado, `nodeIntegration` desactivado y una política CSP estricta.
-- Lista de permisos permitidos: notificaciones; cámara y micrófono solo para WhatsApp, Facebook e Instagram.
-- Los enlaces externos se abren en el navegador del sistema.
-- Se usa un user agent de Chrome de escritorio.
+- Each account uses an isolated partition (`persist:acc-<id>`), so cookies, sessions and cache are not shared between accounts.
+- Deleting an account wipes its session data (logins, cookies and cache).
+- App data is stored locally in `accounts.json`, inside the app's user data folder (on Windows, usually under `%APPDATA%`).
+- `contextIsolation` enabled, `sandbox` enabled, `nodeIntegration` disabled and a strict CSP policy.
+- Permission allowlist: notifications; camera and microphone only for WhatsApp, Facebook and Instagram.
+- External links open in the system browser.
+- A desktop Chrome user agent is used.
 
-## Ejecutar desde el código
+## 🚀 Getting started
 
-Requiere Node.js 20 o superior.
+**Requirements:** Node.js 20 or later.
 
 ```bash
+# Install dependencies
 npm install
+
+# Start the app
 npm start
 ```
 
-## Generar el instalador
+## 📦 Build the installer
 
 ```bash
+# Generate the Windows installer
 npm run dist
 ```
 
-El instalador se genera en `dist\Social_Hub_<versión>.exe` (por ejemplo, `dist\Social_Hub_1.0.0.exe`).
+| Output | Details |
+| --- | --- |
+| `dist/Social_Hub_1.0.0.exe` | NSIS installer (`dist\Social_Hub_<version>.exe`), not one-click: lets you choose the install folder. |
 
-- Instalador NSIS, no de un solo clic: permite elegir la carpeta de instalación.
-- No está firmado digitalmente, por lo que SmartScreen puede mostrar un aviso: pulsa "Más información → Ejecutar de todas formas".
+> [!NOTE]
+> The installer is not digitally signed, so SmartScreen may show a warning: click "More info → Run anyway".
 
-## Iconos y marca
+## 🎨 Icons & branding
 
-- `src/renderer/assets/logo.svg` es la fuente del logo.
-- `npm run icons` regenera `build/icon.png`, `build/icon.ico` y `src/assets/icon.png` (requiere las dependencias de desarrollo `sharp` y `png-to-ico`).
-- `SocialHub.webp` es la ilustración completa de la marca.
+- `src/renderer/assets/logo.svg` is the logo source.
+- `SocialHub.webp` is the full brand illustration.
 
-## Solución de problemas
+```bash
+# Regenerate build/icon.png, build/icon.ico and src/assets/icon.png
+# (requires the sharp and png-to-ico dev dependencies)
+npm run icons
+```
 
-- **`EBUSY` al compilar:** suele deberse a que el antivirus analiza `dist\win-unpacked`. Elimina la carpeta `dist` y vuelve a intentarlo.
-- **"Cannot create symbolic link" al extraer winCodeSign:** activa el Modo de desarrollador de Windows o ejecuta la terminal como administrador.
-- **Un servicio pide iniciar sesión de nuevo tras eliminar y recrear una cuenta:** es lo esperado, las sesiones son independientes por cuenta.
-- **No suena el aviso:** revisa que no esté silenciado en la barra lateral, en Ajustes o en la propia cuenta.
+## 🛠️ Troubleshooting
 
-## Creador y contacto
+<details>
+<summary><code>EBUSY</code> when building</summary>
 
-Hecho por **Ricardo Alvarez** (RASOFTDEV).
+<br>
 
-- 🌐 Sitio web: <https://me.ricardoalvarez.co/>
-- ✉️ Contacto: [dev@ricardoalvarez.co](mailto:dev@ricardoalvarez.co)
+Usually caused by antivirus scanning `dist\win-unpacked`. Delete the `dist` folder and try again.
 
-## Licencia
+</details>
 
-MIT © 2026 RASOFTDEV. Ver [LICENSE](LICENSE).
+<details>
+<summary>"Cannot create symbolic link" when extracting winCodeSign</summary>
+
+<br>
+
+Enable Windows Developer Mode or run the terminal as administrator.
+
+</details>
+
+<details>
+<summary>A service asks me to sign in again after deleting and recreating an account</summary>
+
+<br>
+
+This is expected: sessions are independent per account.
+
+</details>
+
+<details>
+<summary>The alert sound doesn't play</summary>
+
+<br>
+
+Check that it isn't muted in the sidebar, in Settings or on the account itself.
+
+</details>
+
+---
+
+## 👤 Creator
+
+<div align="center">
+
+Made with ❤️ by **Ricardo Alvarez** · RASOFTDEV
+
+🌐 [me.ricardoalvarez.co](https://me.ricardoalvarez.co/) · ✉️ [dev@ricardoalvarez.co](mailto:dev@ricardoalvarez.co)
+
+</div>
+
+## 📄 License
+
+MIT © 2026 RASOFTDEV · [LICENSE](LICENSE)
