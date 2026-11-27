@@ -375,13 +375,26 @@ function createView(account) {
   win.contentView.addChildView(view);
   views.set(account.id, view);
   layoutViews();
+  wc.setAudioMuted(account.id !== store.activeId);
   wc.loadURL(SERVICES[account.service].url, { userAgent: USER_AGENT }).catch(() => {});
   return view;
 }
 
+const PAUSE_MEDIA_SCRIPT =
+  "document.querySelectorAll('video,audio').forEach(m => { try { m.pause(); } catch (e) {} });";
+
 function showActive() {
   for (const [id, view] of views) {
-    view.setVisible(!overlayOpen && !pageOpen && id === store.activeId);
+    const wc = view.webContents;
+    const active = id === store.activeId;
+    view.setVisible(!overlayOpen && !pageOpen && active);
+    if (wc.isDestroyed()) continue;
+    // Only the active account may produce audio; background views are muted.
+    const wasMuted = wc.isAudioMuted();
+    wc.setAudioMuted(!active);
+    if (!active && !wasMuted) {
+      wc.executeJavaScript(PAUSE_MEDIA_SCRIPT, false).catch(() => {});
+    }
   }
 }
 
